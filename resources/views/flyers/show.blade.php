@@ -20,11 +20,13 @@
         <div class="row" style="margin-bottom: 2rem">
           @foreach($set as $photo)
             <div class="col-md-3 gallery_item">
-              <form action="/photos/{{$photo->id}}" method="post">
+              @if(!empty(request()->user()) && $photo->flyer->ownedBy(request()->user()))
+                <form action="/photos/{{$photo->id}}" method="post">
                 <input type="hidden" name="_method" value="DELETE">
                 {{csrf_field()}}
                 <button type="submit" class="close" name="delete" aria-label="Close" style="position: absolute; top: -1.5rem;"><span aria-hidden="true">&times;</span></button>
-              </form>
+                </form>
+              @endif
               <a href="/{{$photo->path}}" data-toggle="lightbox" data-gallery="gallery">
                 
                 <img src="/{{$photo->thumbnail_path}}" alt="" class="img-thumbnail">
